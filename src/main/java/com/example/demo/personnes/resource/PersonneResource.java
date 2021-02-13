@@ -1,7 +1,8 @@
 package com.example.demo.personnes.resource;
 
 import com.example.demo.personnes.process.Personne;
-import com.example.demo.personnes.process.PersonneBDD;
+import com.example.demo.personnes.process.PersonneRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -9,7 +10,17 @@ import java.util.List;
 
 @Path("personnes")
 public class PersonneResource {
-	
+	@Autowired
+	private PersonneRepository personneRepository;
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	// POST /personnes
+	public Personne createPersonne(Personne p) {
+		return personneRepository.save(p);
+	}
+	/*
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Personne> lister(@QueryParam("prenom") String prenom, @QueryParam("age") Integer age) {
@@ -28,13 +39,6 @@ public class PersonneResource {
 	// GET /personnes/{id}
 	public Personne detailler(@PathParam("id") int id) {
 		return PersonneBDD.getById(id);
-	}
-
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	// POST /personnes
-	public void ajouter(Personne p) {
-		PersonneBDD.addPersonne(p);
 	}
 
 	@DELETE
@@ -60,5 +64,5 @@ public class PersonneResource {
 	public void replace(@PathParam("id") int id, Personne p) {
 		PersonneBDD.replace(id, p);
 	}
-
+*/
 }

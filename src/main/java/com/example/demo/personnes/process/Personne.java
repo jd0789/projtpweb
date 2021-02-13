@@ -1,9 +1,16 @@
 package com.example.demo.personnes.process;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Personne  {
 
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
+	private Long id;
 	private String prenom;
 	private int age;
 	
@@ -28,5 +35,13 @@ public class Personne  {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
