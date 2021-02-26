@@ -1,9 +1,9 @@
 package com.example.demo.personnes.process;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.demo.livres.bdd.Livre;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Personne  {
@@ -13,6 +13,8 @@ public class Personne  {
 	private Long id;
 	private String prenom;
 	private int age;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Livre> livres;
 	
 	public Personne() {
 		super();
@@ -43,5 +45,13 @@ public class Personne  {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Livre> getLivres() {
+		return livres;
+	}
+
+	public void setLivres(List<Livre> livres) {
+		this.livres = livres;
 	}
 }
