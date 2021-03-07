@@ -1,6 +1,7 @@
 package com.example.demo.personnes.resource;
 
 import com.example.demo.livres.bdd.Livre;
+import com.example.demo.livres.bdd.LivreRepository;
 import com.example.demo.personnes.process.Personne;
 import com.example.demo.personnes.process.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class PersonneResource {
 	@Autowired
 	private PersonneRepository personneRepository;
+	@Autowired
+	private LivreRepository livreRepository;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -88,5 +91,23 @@ public class PersonneResource {
 	// GET /personnes/{id}/livres
 	public List<Livre> listerLivres(@PathParam("id") Long id) {
 		return personneRepository.findById(id).get().getLivres();
+	}
+
+	@POST
+	@Path("{idPersonne}/livres")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addLivreDejaExistant(@PathParam("idPersonne") Long idPersonne, LivreInput livres) {
+		Optional<Personne> pOpt = personneRepository.findById(idPersonne);
+		Optional<Livre> lOpt = livreRepository.findById(livres.getIdLivre());
+
+		if (!pOpt.isPresent() || !lOpt.isPresent()) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+
+		Personne p = pOpt.get();
+		Livre l = lOpt.get();
+		p.getLivres().add(l);
+		personneRepository.save(p);
+		return Response.ok(p).build();
 	}
 }

@@ -13,7 +13,7 @@ public class Personne  {
 	private Long id;
 	private String prenom;
 	private int age;
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Livre> livres;
 	
 	public Personne() {
