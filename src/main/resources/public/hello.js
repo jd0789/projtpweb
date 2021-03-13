@@ -26,10 +26,30 @@ $(document).ready(function() {
 		    }
 		});	
     });
+
+    $listeLivres.on("click", "li button", function() {
+        	let elemid = $(this).parent().attr('id');
+            let idLivre = elemid.replace('livre-','');
+
+        	$.ajax({
+    		    type: "DELETE",
+    		    url: "http://localhost:8080/api/livres/" + idLivre,
+    		    dataType: "json",
+    		    success: function(data){
+    		    	$("#"+elemid).remove();
+    		    	$(`#selectLivres option[value="${idLivre}"]`).remove();
+    		    },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr);
+                    alert("Impossible de supprimer le livre, il est peut-être encore utilisé");
+                }
+    		});
+        });
     
     $('#addbtnPersonne').click(function(){
 		let prenom = $('#prenom-input').val();
 		let age = $('#age-input').val();
+		let idLivre = $selectLivres.val();
 		
 		$.ajax({
 		    type: "POST",
@@ -37,7 +57,9 @@ $(document).ready(function() {
 		    data: JSON.stringify({ "prenom": prenom, "age" : age }),
 		    contentType: "application/json; charset=utf-8",
 		    dataType: "json",
-		    success: function(data){ appendToListPersonne(data) }
+		    success: function(data){
+		        addLivreToPerson(data.id, idLivre);
+		    }
 		});
 		
 		$('#prenom-input').val('');
@@ -48,7 +70,7 @@ $(document).ready(function() {
 	$('#addbtnLivre').click(function(){
 		let livre = {
 			titre: $('#title-input').val(),
-			nbPage: $('#nbpage-input').val(),
+			nbPages: $('#nbpage-input').val(),
 			auteur: {
 				nom: $('#nom-auteur-input').val(),
 				prenom: $('#prenom-auteur-input').val()
@@ -82,10 +104,28 @@ $(document).ready(function() {
 	/* Ajoute un élément li dans le select des livres*/
 	function appendToSelects(livre) {
 		$selectLivres.append(`<option value="${livre.id}">${livre.titre}</option>`)
-		}
+	}
 
 	/* Ajoute un élément li dans la liste de personne*/
 	function appendToListPersonne(personne) {
-		$listePersonnes.append(`<li id="personne-${personne.id}" class="list-group-item">${personne.prenom} ${personne.age} <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >X</button></li>`);
+	    let liToAppend = `<li id="personne-${personne.id}" class="list-group-item">${personne.prenom} ${personne.age}`;
+	    personne.livres.forEach( livre => liToAppend+= ` - ${livre.titre}`);
+		liToAppend+= ` <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >X</button></li>`;
+
+		$listePersonnes.append(liToAppend);
+	}
+
+	/* Ajout un livre à une personne existante*/
+	function addLivreToPerson(idPersonne, idLivre) {
+	    $.ajax({
+    			type: "POST",
+    			url: "http://localhost:8080/api/personnes/"+idPersonne+"/livres",
+    			data: JSON.stringify({"idLivre" : idLivre}),
+    			contentType: "application/json; charset=utf-8",
+    			dataType: "json",
+    			success: function(data){
+    				appendToListPersonne(data);
+    			}
+    	});
 	}
 });
