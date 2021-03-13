@@ -11,16 +11,35 @@
     <title>Hello, world!</title>
 </head>
 <body>
-<h1>Liste des personnes</h1>
+<h1>Personnes</h1>
 
 <div class="form-group">
     <label>Nouvelle personne:</label>
-    <input type="text" name="prenom" id="prenom-input">
-    <input type="number" name="age" id="age-input">
-    <input type="button" id="addbtn" name="addbtn" value="Add" class="btn btn-primary btn-sm" />
+    Prenom : <input type="text" name="prenom" id="prenom-input">
+    Ages : <input type="number" name="age" id="age-input">
+
+    Livres :
+    <select id="selectLivres">
+    </select>
+
+    <input type="button" id="addbtnPersonne" name="addbtn" value="Add" class="btn btn-primary btn-sm" />
 </div>
 
-<ul class="list-group" id="list">
+<ul class="list-group" id="listPersonnes">
+</ul>
+
+<h1>Livres</h1>
+
+<div class="form-group">
+    <label>Nouveau livre :</label>
+    Titre <input type="text" name="title" id="title-input">
+    Nb pages : <input type="number" name="nbPage" id="nbpage-input">
+    Nom auteur : <input type="text" name="title" id="nom-auteur-input">
+    Prenom auteur : <input type="text" name="title" id="prenom-auteur-input">
+    <input type="button" id="addbtnLivre" name="addbtn" value="Add" class="btn btn-primary btn-sm" />
+</div>
+
+<ul class="list-group" id="listLivres">
 </ul>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
