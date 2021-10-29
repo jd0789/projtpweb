@@ -15,6 +15,7 @@ public class JerseyConfiguration extends ResourceConfig {
 	public JerseyConfiguration() {
 		register(PersonneResource.class);
 		register(LivreResource.class);
+		register(CORSResponseFilter.class);
 
 		// La servlet de jersey map toutes les url /* donc impossible de servir du contenu statique via la servlet par défaut de sprign boot.
 		// On doit donc dire à jersey de quand même laisser passer la requête pour que la prochaine servlet prenne le relais.
