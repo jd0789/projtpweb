@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.livres.resource.LivreResource;
-import com.example.demo.personnes.resource.PersonneResource;
+import com.example.demo.magasin.MagasinResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.stereotype.Component;
@@ -13,8 +12,7 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfiguration extends ResourceConfig {
 	
 	public JerseyConfiguration() {
-		register(PersonneResource.class);
-		register(LivreResource.class);
+		register(MagasinResource.class);
 		register(CORSResponseFilter.class);
 
 		// La servlet de jersey map toutes les url /* donc impossible de servir du contenu statique via la servlet par défaut de sprign boot.
